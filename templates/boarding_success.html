@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Boarding Successful</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<div class="dashboard-container">
+
+    <div class="dashboard-content">
+
+        <h1>✅ Boarding Successful</h1>
+
+        <h2>🚗 {{ trip.auto_number }}</h2>
+
+        <p>
+            <strong>Route:</strong>
+            {{ trip.route_name }}
+        </p>
+
+        <p>
+            <strong>From:</strong>
+            {{ trip.start_location }}
+        </p>
+
+        <p>
+            <strong>To:</strong>
+            {{ trip.destination }}
+        </p>
+
+        <hr>
+
+        <h2>
+            Seats Remaining:
+            {{ remaining_seats }}
+        </h2>
+
+        {% if remaining_seats == 0 %}
+
+            <p>
+                🚫 This auto is now FULL.
+            </p>
+
+        {% else %}
+
+            <p>
+                Seats are still available.
+            </p>
+
+        {% endif %}
+
+        <br>
+
+        <a href="{{ url_for('dashboard') }}">
+            Back to Passenger Dashboard
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

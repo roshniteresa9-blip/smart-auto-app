@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Scan QR - Smart Auto</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <!-- QR Scanner Library -->
+    <script src="https://unpkg.com/html5-qrcode"
+            type="text/javascript"></script>
+
+</head>
+
+<body>
+
+<div class="dashboard-container">
+
+    <div class="dashboard-content">
+
+        <h1>📷 Scan Auto QR</h1>
+
+        <p>
+            Point your camera at the QR code displayed by the driver.
+        </p>
+
+
+        <!-- QR Scanner -->
+
+        <div id="reader"
+             style="width: 100%; max-width: 500px; margin: 20px auto;">
+        </div>
+
+
+        <p id="scan-status">
+            Waiting for QR code...
+        </p>
+
+
+        <br>
+
+        <a href="{{ url_for('dashboard') }}">
+            ← Back to Dashboard
+        </a>
+
+    </div>
+
+</div>
+
+
+<script>
+
+function onScanSuccess(decodedText, decodedResult) {
+
+    console.log("QR Code:", decodedText);
+
+    document.getElementById("scan-status").innerText =
+        "QR detected! Opening trip...";
+
+
+    /*
+       QR contains:
+
+       http://127.0.0.1:5000/board/TRIP_ID
+
+       Example:
+
+       http://127.0.0.1:5000/board/12
+    */
+
+
+    if (decodedText.includes("/board/")) {
+
+        window.location.href = decodedText;
+
+    } else {
+
+        document.getElementById("scan-status").innerText =
+            "Invalid Smart Auto QR code.";
+
+    }
+
+}
+
+
+function onScanFailure(error) {
+
+    // Scanner continuously searches.
+    // No need to show every scan failure.
+
+}
+
+
+const scanner = new Html5QrcodeScanner(
+    "reader",
+    {
+        fps: 10,
+        qrbox: {
+            width: 250,
+            height: 250
+        }
+    },
+    false
+);
+
+
+scanner.render(
+    onScanSuccess,
+    onScanFailure
+);
+
+</script>
+
+</body>
+
+</html>
