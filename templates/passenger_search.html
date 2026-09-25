@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Find Auto | Smart Auto</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<div class="auth-page">
+
+    <div class="auth-card">
+
+        <div class="auth-icon">
+            🚗
+        </div>
+
+        <h1>Where are you going?</h1>
+
+        <p>
+            Find an available Smart Auto
+        </p>
+
+   
+ <div style="margin: 20px 0;">
+    <a href="{{ url_for('passenger_trips') }}"
+       class="my-trips-button">
+        🚌 My Trips
+    </a>
+</div>
+
+        <!-- SEARCH FORM -->
+
+        <form method="POST">
+
+            <label>Pickup Location</label>
+
+            <select name="pickup_location" required>
+
+                <option value="">
+                    Select pickup location
+                </option>
+
+                {% for location in locations %}
+
+                    <option value="{{ location }}"
+                        {% if location == pickup %}
+                            selected
+                        {% endif %}>
+
+                        {{ location }}
+
+                    </option>
+
+                {% endfor %}
+
+            </select>
+
+
+            <label>Destination</label>
+
+            <select name="destination" required>
+
+                <option value="">
+                    Select destination
+                </option>
+
+                {% for location in locations %}
+
+                    <option value="{{ location }}"
+                        {% if location == destination %}
+                            selected
+                        {% endif %}>
+
+                        {{ location }}
+
+                    </option>
+
+                {% endfor %}
+
+            </select>
+
+
+            <button type="submit">
+                🔍 Find Available Autos
+            </button>
+
+        </form>
+
+
+        <!-- AVAILABLE AUTOS -->
+
+        {% if autos %}
+
+            <hr>
+
+            <h2>Available Autos</h2>
+
+            {% for auto in autos %}
+
+                <div class="trip-card">
+
+                    <h3>
+                        🚗 {{ auto.auto_number }}
+                    </h3>
+
+                    <p>
+                        <strong>Route:</strong>
+                        {{ auto.route_name }}
+                    </p>
+
+                    <p>
+                        <strong>From:</strong>
+                        {{ auto.start_location }}
+                    </p>
+
+                    <p>
+                        <strong>To:</strong>
+                        {{ auto.destination }}
+                    </p>
+
+                    <p>
+                        <strong>Travel Time:</strong>
+                        {{ auto.estimated_minutes }} minutes
+                    </p>
+
+                    <p>
+                        <strong>Seats Available:</strong>
+                        {{ auto.available_seats }}
+                    </p>
+
+                    <p>
+                        <strong>Status:</strong>
+                        {{ auto.status|upper }}
+                    </p>
+
+                    <p>
+ <a href="{{ url_for('scan_qr', trip_id=auto.trip_id) }}">
+    🚗 Select Auto & Scan QR
+</a>
+
+                </div>
+
+            {% endfor %}
+
+        {% elif pickup and destination %}
+
+            <hr>
+
+            <h3>No available autos</h3>
+
+            <p>
+                No active auto is currently available
+                for this route.
+            </p>
+
+        {% endif %}
+
+
+        <br>
+
+        <a href="{{ url_for('logout') }}"
+           class="back-home">
+
+            Logout
+
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

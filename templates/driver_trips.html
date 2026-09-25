@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Trip History | Smart Auto</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<div class="auth-page">
+
+    <div class="auth-card">
+
+        <div class="auth-icon">
+            🚌
+        </div>
+
+        <h1>Trip History</h1>
+
+        <p>
+            Your previous Smart Auto trips
+        </p>
+
+        {% if trips %}
+
+            {% for trip in trips %}
+
+                <div class="trip-card">
+
+                    <h2>
+                        🚗 {{ trip.auto_number }}
+                    </h2>
+
+                    <p>
+                        <strong>Trip ID:</strong>
+                        {{ trip.trip_id }}
+                    </p>
+
+                    <p>
+                        <strong>Route:</strong>
+                        {{ trip.route_name }}
+                    </p>
+
+                    <p>
+                        <strong>From:</strong>
+                        {{ trip.start_location }}
+                    </p>
+
+                    <p>
+                        <strong>To:</strong>
+                        {{ trip.destination }}
+                    </p>
+
+                    <p>
+    <strong>Started At:</strong>
+    {{ trip.started_at }}
+</p>
+
+<p>
+    <strong>Ended At:</strong>
+    {{ trip.ended_at or "Not ended" }}
+</p>
+
+<p>
+    <strong>Status:</strong>
+    {{ trip.status|upper }}
+</p>
+
+                </div>
+
+                <br>
+
+            {% endfor %}
+
+        {% else %}
+
+            <div class="trip-card">
+
+                <h2>📭 No Trips Yet</h2>
+
+                <p>
+                    You have not started any trips yet.
+                </p>
+
+            </div>
+
+        {% endif %}
+
+        <br>
+
+        <a href="{{ url_for('driver_dashboard') }}"
+           class="back-home">
+            ← Back to Dashboard
+        </a>
+
+        <br><br>
+
+        <a href="{{ url_for('logout') }}"
+           class="back-home">
+            Logout
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+</html>

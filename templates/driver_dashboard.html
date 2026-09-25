@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Driver Dashboard | Smart Auto</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body class="dashboard-body">
+
+    <!-- NAVBAR -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+            🚗 <span>Smart Auto</span>
+        </div>
+
+        <div class="nav-links">
+
+            <span class="welcome-text">
+                👋 Welcome, {{ session["user_name"] }}
+            </span>
+
+            <a href="{{ url_for('logout') }}"
+               class="logout-btn">
+                Logout
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- DASHBOARD -->
+
+    <main class="dashboard">
+
+        <!-- HEADER -->
+
+        <section class="dashboard-header">
+
+            <div>
+
+                <p class="dashboard-label">
+                    DRIVER PANEL
+                </p>
+
+                <h1>
+                    Driver Dashboard
+                </h1>
+
+                <p class="dashboard-subtitle">
+                    Manage your auto, start trips and monitor passengers.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- QUICK STATS -->
+
+        <section class="dashboard-grid">
+
+
+            <!-- AUTO -->
+
+            <div class="dashboard-card auto-card">
+
+                <div class="card-icon">
+                    🚗
+                </div>
+
+                <div class="card-content">
+
+                    <p>
+                        Your Auto
+                    </p>
+
+                    <h2>
+                        {{ auto_number }}
+                    </h2>
+
+                    <span>
+                        Registered Auto
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- SEATS -->
+
+            <div class="dashboard-card seats-card">
+
+                <div class="card-icon">
+                    🪑
+                </div>
+
+                <div class="card-content">
+
+                    <p>
+                        Seat Capacity
+                    </p>
+
+                    <h2>
+    {% if active_trip %}
+        {{ active_trip.available_seats }} / {{ active_trip.capacity }}
+    {% else %}
+        3 / 3
+    {% endif %}
+</h2>
+
+<span>
+    Seats Available
+</span>
+
+                </div>
+
+            </div>
+
+
+            <!-- STATUS -->
+
+            <div class="dashboard-card status-card">
+
+                <div class="card-icon">
+                    🟢
+                </div>
+
+                <div class="card-content">
+
+                    <p>
+                        Auto Status
+                    </p>
+
+                   {% if active_trip %}
+
+    <h2>
+        ON TRIP
+    </h2>
+
+    <span>
+        Trip Active
+    </span>
+
+{% else %}
+
+    <h2>
+        AVAILABLE
+    </h2>
+
+    <span>
+        Ready for a trip
+    </span>
+
+{% endif %}
+
+                </div>
+
+            </div>
+
+        </section>
+
+                <!-- DRIVER STATISTICS -->
+
+        <section class="dashboard-grid">
+
+            <!-- TOTAL TRIPS -->
+
+            <div class="dashboard-card">
+
+                <div class="card-icon">
+                    🚌
+                </div>
+
+                <div class="card-content">
+
+                    <p>
+                        Total Trips
+                    </p>
+
+                    <h2>
+                        {{ total_trips }}
+                    </h2>
+
+                    <span>
+                        Trips started
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- COMPLETED TRIPS -->
+
+            <div class="dashboard-card">
+
+                <div class="card-icon">
+                    ✅
+                </div>
+
+                <div class="card-content">
+
+                    <p>
+                        Completed Trips
+                    </p>
+
+                    <h2>
+                        {{ completed_trips }}
+                    </h2>
+
+                    <span>
+                        Successfully completed
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- PASSENGERS SERVED -->
+
+            <div class="dashboard-card">
+
+                <div class="card-icon">
+                    👥
+                </div>
+
+                <div class="card-content">
+
+                    <p>
+                        Passengers Served
+                    </p>
+
+                    <h2>
+                        {{ passengers_served }}
+                    </h2>
+
+                    <span>
+                        Total passengers
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+         
+                <!-- CURRENT TRIP -->
+
+        {% if active_trip %}
+
+        <section class="trip-panel">
+
+            <div class="trip-panel-header">
+
+                <div class="trip-panel-icon">
+                    🚌
+                </div>
+
+                <div>
+
+                    <p class="dashboard-label">
+                        CURRENT TRIP
+                    </p>
+
+                    <h2>
+                        {{ active_trip.route_name }}
+                    </h2>
+
+                    <p>
+                        {{ active_trip.start_location }}
+                        →
+                        {{ active_trip.destination }}
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="trip-form">
+
+                <div class="form-group">
+
+                    <label>
+                        📍 Route
+                    </label>
+
+                    <p>
+                        {{ active_trip.route_name }}
+                    </p>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        🪑 Available Seats
+                    </label>
+
+                    <p>
+                        {{ active_trip.available_seats }}
+                        /
+                        {{ active_trip.capacity }}
+                    </p>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        🟢 Status
+                    </label>
+
+                    <p>
+                        {{ active_trip.status | upper }}
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        {% endif %}
+
+        
+        <!-- START TRIP -->
+
+        <section class="trip-panel">
+
+            <div class="trip-panel-header">
+
+                <div class="trip-panel-icon">
+                    🚌
+                </div>
+
+                <div>
+
+                    <p class="dashboard-label">
+                        TRIP MANAGEMENT
+                    </p>
+
+                    <h2>
+                        Start a New Trip
+                    </h2>
+
+                    <p>
+                        Select your route and start accepting passengers.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <form method="POST"
+                  action="/driver/start-trip"
+                  class="trip-form">
+
+                <div class="form-group">
+
+                    <label for="route_id">
+                        📍 Select Route
+                    </label>
+
+                    <select name="route_id"
+                            id="route_id"
+                            required>
+
+                        <option value="">
+                            Choose your route
+                        </option>
+
+                        {% for route in routes %}
+
+                            <option value="{{ route.id }}">
+
+                                {{ route.route_name }}
+                                —
+                                {{ route.start_location }}
+                                →
+                                {{ route.destination }}
+
+                            </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+
+                <button type="submit"
+                        class="start-trip-btn">
+
+                    🚗 Start Trip
+
+                </button>
+
+            </form>
+
+        </section>
+
+        <!-- FOOTER -->
+
+        <footer class="dashboard-footer">
+
+            <p>
+                Smart Auto • Driver Management System
+            </p>
+
+        </footer>
+
+    </main>
+
+</body>
+
+</html>

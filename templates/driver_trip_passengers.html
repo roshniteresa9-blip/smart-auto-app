@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Trip Passengers | Smart Auto</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<div class="auth-page">
+
+    <div class="auth-card">
+
+        <div class="auth-icon">
+            🚌
+        </div>
+
+        <h1>Trip Passengers</h1>
+
+        <p>
+            Passengers who boarded this auto
+        </p>
+
+        <!-- TRIP INFORMATION -->
+
+        <div class="trip-card">
+
+            <h2>
+                🚗 {{ trip.auto_number }}
+            </h2>
+
+            <p>
+                <strong>Trip ID:</strong>
+                {{ trip.trip_id }}
+            </p>
+
+            <p>
+                <strong>Route:</strong>
+                {{ trip.route_name }}
+            </p>
+
+            <p>
+                <strong>From:</strong>
+                {{ trip.start_location }}
+            </p>
+
+            <p>
+                <strong>To:</strong>
+                {{ trip.destination }}
+            </p>
+
+            <p>
+                <strong>Status:</strong>
+                {{ trip.status|upper }}
+            </p>
+
+            <p>
+                <strong>Available Seats:</strong>
+                {{ trip.available_seats }}
+            </p>
+
+        </div>
+
+        <hr>
+
+        <!-- PASSENGER LIST -->
+
+        <h2>👥 Boarded Passengers</h2>
+
+        {% if passengers %}
+
+            {% for passenger in passengers %}
+
+                <div class="trip-card">
+
+                    <h3>
+                        👤 {{ passenger.full_name }}
+                    </h3>
+
+                    <p>
+                        <strong>Passenger ID:</strong>
+                        {{ passenger.passenger_id }}
+                    </p>
+
+                    <p>
+                        <strong>Email:</strong>
+                        {{ passenger.email }}
+                    </p>
+
+                    <p>
+                        <strong>Boarded At:</strong>
+                        {{ passenger.boarded_at }}
+                    </p>
+
+                    <p>
+                        <strong>Status:</strong>
+                        BOARDED ✅
+                    </p>
+
+                </div>
+
+                <br>
+
+            {% endfor %}
+
+        {% else %}
+
+            <div class="trip-card">
+
+                <h2>📭 No Passengers Yet</h2>
+
+                <p>
+                    No passenger has boarded this trip yet.
+                </p>
+
+            </div>
+
+        {% endif %}
+
+        <br>
+
+        <a href="{{ url_for('driver_dashboard') }}"
+           class="back-home">
+            ← Back to Dashboard
+        </a>
+
+        <form method="POST"
+      action="{{ url_for('end_trip', trip_id=trip.trip_id) }}"
+      style="display: inline;">
+
+    <button type="submit"
+            onclick="return confirm('Are you sure you want to end this trip?');">
+        🛑 End Trip
+    </button>
+
+</form>
+
+        <br><br>
+
+        <a href="{{ url_for('logout') }}"
+           class="back-home">
+            Logout
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Smart Auto - Passenger</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<div class="dashboard-container">
+
+    <!-- HEADER -->
+    <div class="dashboard-header">
+
+        <div>
+            <h1>🚗 Smart Auto</h1>
+
+            <p>
+                Welcome, {{ session["user_name"] }}
+            </p>
+        </div>
+
+        <a href="{{ url_for('logout') }}">
+            Logout
+        </a>
+
+    </div>
+
+
+    <!-- CONTENT -->
+    <div class="dashboard-content">
+
+        <h2>Available Autos</h2>
+
+
+        {% if trips %}
+
+        <div class="trip-list">
+
+            {% for trip in trips %}
+
+            <div class="trip-card">
+
+                <h3>
+                    🚗 {{ trip.auto_number }}
+                </h3>
+
+
+                <p>
+                    <strong>Route:</strong>
+                    {{ trip.route_name }}
+                </p>
+
+
+                <p>
+                    <strong>From:</strong>
+                    {{ trip.start_location }}
+                </p>
+
+
+                <p>
+                    <strong>To:</strong>
+                    {{ trip.destination }}
+                </p>
+
+
+                <p>
+                    <strong>Travel Time:</strong>
+                    {{ trip.estimated_minutes }} minutes
+                </p>
+
+
+                <p>
+                    <strong>Seats Available:</strong>
+
+                    {% if trip.available_seats > 0 %}
+
+                        <span>
+                            {{ trip.available_seats }}
+                        </span>
+
+                    {% else %}
+
+                        <span>
+                            FULL
+                        </span>
+
+                    {% endif %}
+
+                </p>
+
+
+                <p>
+                    <strong>Status:</strong>
+                    {{ trip.status|upper }}
+                </p>
+
+
+               {% if trip.available_seats > 0 %}
+
+  <a href="{{ url_for('scan_qr') }}">
+    📷 Scan QR to Board
+  </a>
+
+{% else %}
+
+    <button disabled>
+        Auto Full
+    </button>
+
+{% endif %}
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+
+        {% else %}
+
+        <div class="empty-message">
+
+            <h3>
+                No Active Autos
+            </h3>
+
+            <p>
+                There are currently no autos available.
+            </p>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+</body>
+</html>

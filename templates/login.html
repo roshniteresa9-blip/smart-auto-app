@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>{{ role|capitalize }} Login | Smart Auto</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+
+<body>
+
+    <div class="auth-page">
+
+        <div class="auth-card">
+
+            <div class="auth-icon">
+                🚗
+            </div>
+
+            <h1>
+                {{ role|capitalize }} Login
+            </h1>
+
+            <p>
+                Login to your Smart Auto account
+            </p>
+
+            {% with messages = get_flashed_messages() %}
+
+    {% if messages %}
+
+        {% for message in messages %}
+
+            <div class="message">
+                {{ message }}
+            </div>
+
+        {% endfor %}
+
+    {% endif %}
+
+{% endwith %}
+           <form method="POST">
+
+    <label>Email</label>
+
+    <input
+        type="email"
+        name="email"
+        placeholder="Enter your email"
+        required
+    >
+
+
+    <label>Password</label>
+
+    <input
+        type="password"
+        name="password"
+        placeholder="Enter your password"
+        required
+    >
+
+
+    <button type="submit">
+        Login
+    </button>
+
+</form>
+
+
+            <p class="switch-text">
+
+                Don't have an account?
+
+                <a href="/register/{{ role }}">
+                    Register
+                </a>
+
+            </p>
+
+
+            <a href="/" class="back-home">
+                ← Back to Home
+            </a>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Boarding Confirmed | Smart Auto</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<div class="dashboard-container">
+
+    <div class="dashboard-content">
+
+        <div class="auth-icon">
+            ✅
+        </div>
+
+        <h1>Boarding Confirmed!</h1>
+
+        <p>
+            You have successfully boarded the Smart Auto.
+        </p>
+
+
+        <div class="trip-card">
+
+            <h2>🚗 {{ trip.auto_number }}</h2>
+
+            <hr>
+
+            <p>
+                <strong>Route:</strong>
+                {{ trip.route_name }}
+            </p>
+
+            <p>
+                <strong>From:</strong>
+                {{ trip.start_location }}
+            </p>
+
+            <p>
+                <strong>To:</strong>
+                {{ trip.destination }}
+            </p>
+
+            <p>
+                <strong>Boarding Time:</strong>
+                {{ boarding_time }}
+            </p>
+
+            <p>
+                <strong>Seats Remaining:</strong>
+                {{ remaining_seats }}
+            </p>
+
+            <p>
+                <strong>Status:</strong>
+                <span>BOARDED</span>
+            </p>
+
+        </div>
+
+
+        <br>
+
+        <a href="{{ url_for('dashboard') }}">
+            🏠 Back to Dashboard
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

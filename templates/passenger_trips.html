@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>My Trips | Smart Auto</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<div class="dashboard-container">
+
+    <div class="dashboard-content">
+
+        <h1>🚌 My Trips</h1>
+
+        <p>
+            Your Smart Auto boarding history
+        </p>
+
+        {% if trips %}
+
+            {% for trip in trips %}
+
+                <div class="trip-card">
+
+                    <h2>
+                        🚗 {{ trip.auto_number }}
+                    </h2>
+
+                    <hr>
+
+                    <p>
+                        <strong>Trip ID:</strong>
+                        {{ trip.trip_id }}
+                    </p>
+
+                    <p>
+                        <strong>Route:</strong>
+                        {{ trip.route_name }}
+                    </p>
+
+                    <p>
+                        <strong>From:</strong>
+                        {{ trip.start_location }}
+                    </p>
+
+                    <p>
+                        <strong>To:</strong>
+                        {{ trip.destination }}
+                    </p>
+
+                    <p>
+                        <strong>Boarding Time:</strong>
+                        {{ trip.boarded_at }}
+                    </p>
+
+                    <p>
+                        <strong>Status:</strong>
+                        <span>BOARDED ✅</span>
+                    </p>
+
+                </div>
+
+                <br>
+
+            {% endfor %}
+
+        {% else %}
+
+            <div class="trip-card">
+
+                <h2>📭 No Trips Yet</h2>
+
+                <p>
+                    You have not boarded any Smart Auto yet.
+                </p>
+
+            </div>
+
+        {% endif %}
+
+        <br>
+
+        <a href="{{ url_for('dashboard') }}">
+            🏠 Back to Dashboard
+        </a>
+        <br>
+
+<a href="{{ url_for('passenger_trips') }}">
+    🚌 My Trips
+</a>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

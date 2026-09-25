@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Smart Auto - Active Trip</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+
+<body>
+
+<div class="trip-page">
+
+    <div class="trip-header">
+
+        <div>
+
+            <h1>Smart Auto</h1>
+
+            <p>Active Trip</p>
+
+        </div>
+
+        <a href="{{ url_for('driver_dashboard') }}">
+            Dashboard
+        </a>
+
+    </div>
+
+
+    <div class="trip-grid">
+
+
+        <!-- TRIP INFORMATION -->
+
+        <div class="trip-card">
+
+            <h2>Trip Information</h2>
+
+
+            <div class="trip-row">
+
+                <span>Trip ID</span>
+
+                <strong>
+                    {{ trip.trip_id }}
+                </strong>
+
+            </div>
+
+
+            <div class="trip-row">
+
+                <span>Auto Number</span>
+
+                <strong>
+                    {{ trip.auto_number }}
+                </strong>
+
+            </div>
+
+
+            <div class="trip-row">
+
+                <span>Route</span>
+
+                <strong>
+                    {{ trip.route_name }}
+                </strong>
+
+            </div>
+
+
+            <div class="trip-row">
+
+                <span>From</span>
+
+                <strong>
+                    {{ trip.start_location }}
+                </strong>
+
+            </div>
+
+
+            <div class="trip-row">
+
+                <span>Destination</span>
+
+                <strong>
+                    {{ trip.destination }}
+                </strong>
+
+            </div>
+
+
+            <div class="trip-row">
+
+                <span>Status</span>
+
+                <strong>
+                    {{ trip.status|upper }}
+                </strong>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- SEAT INFORMATION -->
+
+        <div class="trip-card">
+
+            <h2>Seat Availability</h2>
+
+
+            <div class="seat-visual">
+
+                <div class="seat-number">
+
+                    {{ trip.available_seats }}
+
+                </div>
+
+                <p>
+                    Seats Available
+                </p>
+
+            </div>
+
+ <a href="{{ url_for('driver_trip_passengers', trip_id=trip.trip_id) }}"
+   class="my-trips-button">
+    👥 View Passengers
+</a>
+
+
+            <p>
+
+                Capacity:
+                <strong>
+                    {{ trip.capacity }}
+                </strong>
+
+            </p>
+
+        </div>
+
+
+
+        <!-- QR CODE -->
+
+        <div class="trip-card trip-qr">
+
+            <h2>Passenger QR Code</h2>
+
+            <p>
+                Ask passengers to scan this QR code
+                to board the auto.
+            </p>
+
+
+            <img
+                src="{{ url_for(
+                    'static',
+                    filename='qr/trip_' ~ trip.trip_id ~ '.png'
+                ) }}"
+                alt="Trip QR Code"
+            >
+
+
+            <p>
+
+                Trip ID:
+                <strong>
+                    {{ trip.trip_id }}
+                </strong>
+
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>
